@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.bouceka.player
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: gradle
+features: [annotation-api, app-name, asciidoctor, data, data-mongodb, gradle, http-client, jackson-databind, jib, junit, kotlin, kotlin-application, kotlin-build, kotlin-extension-functions, kubernetes, logback, management, micronaut-build, mongo-sync, nats, netty-server, properties, readme, shade, test-resources]
