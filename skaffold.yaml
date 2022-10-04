@@ -1,0 +1,21 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infrastructure/k8s/*
+      - ./infrastructure/k8s-dev/*
+build:
+  # local: # only for local
+  #   push: false
+  googleCloudBuild:
+    projectId: nic-athletics-dev
+  artifacts:
+    - image: us.gcr.io/nic-athletics-dev/user
+      context: user
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
