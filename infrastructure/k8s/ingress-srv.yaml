@@ -17,3 +17,10 @@ spec:
                 name: user-srv
                 port:
                   number: 3000
+          - path: /api/player/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: player-srv
+                port:
+                  number: 8080

@@ -5,6 +5,7 @@ deploy:
     manifests:
       - ./infrastructure/k8s/*
       - ./infrastructure/k8s-dev/*
+      - ./player-srv/k8s.yml
 build:
   # local: # only for local
   #   push: false
@@ -19,3 +20,7 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: us.gcr.io/nic-athletics-dev/player-srv
+      context: player-srv
+      docker:
+        dockerfile: Dockerfile
