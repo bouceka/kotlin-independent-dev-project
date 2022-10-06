@@ -1,1 +1,1 @@
-rootProject.name = "com.example.registration-srv"
+rootProject.name = "registration-srv"
