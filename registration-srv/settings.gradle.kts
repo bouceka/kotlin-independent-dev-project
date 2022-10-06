@@ -1,1 +1,3 @@
-rootProject.name = "registration-srv"
+
+rootProject.name="registration-srv"
+

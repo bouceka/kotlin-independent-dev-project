@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "registration-srv"
+spec:
+  selector:
+    matchLabels:
+      app: "registration-srv"
+  template:
+    metadata:
+      labels:
+        app: "registration-srv"
+    spec:
+      containers:
+        - name: "registration-srv"
+          image: us.gcr.io/nic-athletics-dev/registration-srv
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "registration-srv"
+spec:
+  selector:
+    app: "registration-srv"
+  type: LoadBalancer
+  ports:
+    - protocol: "TCP"
+      port: 8080
+      targetPort: 8080

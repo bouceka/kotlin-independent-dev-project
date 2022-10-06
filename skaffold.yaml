@@ -6,6 +6,7 @@ deploy:
       - ./infrastructure/k8s/*
       - ./infrastructure/k8s-dev/*
       - ./player-srv/k8s.yml
+      - ./registration-srv/k8s.yml
 build:
   # local: # only for local
   #   push: false
@@ -22,5 +23,9 @@ build:
             dest: .
     - image: us.gcr.io/nic-athletics-dev/player-srv
       context: player-srv
+      docker:
+        dockerfile: Dockerfile
+    - image: us.gcr.io/nic-athletics-dev/registration-srv
+      context: registration-srv
       docker:
         dockerfile: Dockerfile

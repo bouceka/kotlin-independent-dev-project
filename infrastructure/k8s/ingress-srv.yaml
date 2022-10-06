@@ -24,3 +24,10 @@ spec:
                 name: player-srv
                 port:
                   number: 8080
+          - path: /api/registration/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: registration-srv
+                port:
+                  number: 8080
