@@ -9,8 +9,8 @@ import io.ktor.server.request.*
 fun Application.configureRouting() {
 
     routing {
-        get("/") {
-            call.respondText("Hello from ktor!!!")
+        get("/api/registration/hello") {
+            call.respondText("Hello World from Ktor!")
         }
     }
 }
