@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: "player-srv"
-          image: us.gcr.io/nic-athletics-dev/player-srv
+          image: 4sam/player-srv
           # image: bouceka/player-srv
           # ports:
           #   - name: http

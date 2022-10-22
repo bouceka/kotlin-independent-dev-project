@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: "registration-srv"
-          image: us.gcr.io/nic-athletics-dev/registration-srv
+          image: 4sam/registration-srv
 ---
 apiVersion: v1
 kind: Service

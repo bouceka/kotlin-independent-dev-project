@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: user
-          image: us.gcr.io/nic-athletics-dev/user
+          image: 4sam/user
 # Cluster IP service
 ---
 apiVersion: v1
