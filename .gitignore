@@ -47,3 +47,7 @@ node_modules
 
 # Micronaut
 **/dependency-reduced-pom.xml
+
+# Unused Service
+player-srv
+helper.md
