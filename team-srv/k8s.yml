@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "team-srv"
+spec:
+  selector:
+    matchLabels:
+      app: "team-srv"
+  template:
+    metadata:
+      labels:
+        app: "team-srv"
+    spec:
+      containers:
+        - name: "team-srv"
+          image: 4sam/team-srv
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "team-srv"
+spec:
+  selector:
+    app: "team-srv"
+  type: LoadBalancer
+  ports:
+    - protocol: "TCP"
+      port: 8080
+      targetPort: 8080
