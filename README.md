@@ -46,6 +46,7 @@ This week I focus on improving the Micronaut services and creating first classes
 - Creating appropriate folder structure
 ## Progress
 I have created a folder structure for each service. We have packages such as `Controller`, `DTO`, `Entity`, `Models`, `Repository`, and `Service`. A controller is will have files providing endpoints and filter requests with middleware (I will implement it later). [DTOs](https://micronaut-projects.github.io/micronaut-data/latest/guide/#dto) (Data Transfer Object) will be objects that define how the data will be sent over the network. Entities are going to map the tables that we will have in our database. In models is going to be stored data classes that shape the objects (It might be renamed to `Types`). In repositories, we will access data in the repository. Services will handle our business logic.
+
 ![Folder structure](./assets/folder-structure-1.png)
 ## Potential Improvements
 - I have implemented temporary static data that response from the controller. This should be improved by implementing database.
