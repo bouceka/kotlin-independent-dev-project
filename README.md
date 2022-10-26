@@ -48,14 +48,51 @@ This week I focus on improving the Micronaut services and creating first classes
 I have created a folder structure for each service. We have packages such as `Controller`, `DTO`, `Entity`, `Models`, `Repository`, and `Service`. A controller is will have files providing endpoints and filter requests with middleware (I will implement it later). [DTOs](https://micronaut-projects.github.io/micronaut-data/latest/guide/#dto) (Data Transfer Object) will be objects that define how the data will be sent over the network. Entities are going to map the tables that we will have in our database. In models is going to be stored data classes that shape the objects (It might be renamed to `Types`). In repositories, we will access data in the repository. Services will handle our business logic.
 
 ![Folder structure](./assets/folder-structure-1.png)
-## Potential Improvements
-- I have implemented temporary static data that response from the controller. This should be improved by implementing database.
-- In controllers of both services are missing PUT and DELETE operations. It took me a little bit more reading of JDBC and Micronaut documentation. The answer is [here](https://micronaut-projects.github.io/micronaut-data/latest/guide/#dto). I will fix it the following week.
-- Folder structure might change, meaning change name into Pascal case.
-- Refactor code. Remove and re-consider duplicity of the model classes.
 
 ## What did I learn?
 Very slowly I am picking up this framework and implementing Kotlin language for using backend API service.
 I have learned the following:
 - How to return data after a GET request.
+```kotlin
+@Controller("/api/registration")
+class RegistrationController {
+
+	var userData: User = User("1", "John", "Doe", "john@doe.com", "password", "123456789", "123456", "Player")
+	val playerData = Player("1", "", "male", userData)
+	val regitrationList = listOf<Registration>(Registration("1", "Tuesday", "Registered", "Competitive", playerData))
+
+	@Get
+	fun findAll(): List<Registration> {
+		return regitrationList
+	}
+
+	@Get("/{id}")
+	fun findById(@PathVariable id: String): Registration? {
+		return regitrationList.find { it.id == id }
+	}
+}
+```
 - How to create data classes that will shape objects we will use such as `User`, `Player`, `Team`, etc.
+
+```kotlin
+data class User(
+	val id: String,
+	val firstName: String,
+	...
+	val userRole: String
+)
+```
+```kotlin
+data class Registration(
+	var id: String,
+	val matchDay: String,
+	...
+	val Player: Player,
+)
+```
+
+## Potential Improvements
+- I have implemented temporary static data that response from the controller. This should be improved by implementing database.
+- In controllers of both services are missing PUT and DELETE operations. It took me a little bit more reading of JDBC and Micronaut documentation. The answer is [here](https://micronaut-projects.github.io/micronaut-data/latest/guide/#dto). I will fix it the following week.
+- Folder structure might change, meaning change name into Pascal case.
+- Refactor code. Remove and re-consider duplicity of the model classes.
