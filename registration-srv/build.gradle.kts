@@ -17,17 +17,24 @@ repositories {
 }
 
 dependencies {
-    kapt("io.micronaut:micronaut-http-validation")
-    implementation("io.micronaut:micronaut-http-client")
-    implementation("io.micronaut:micronaut-jackson-databind")
-    implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("jakarta.annotation:jakarta.annotation-api")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
-    runtimeOnly("ch.qos.logback:logback-classic")
-    implementation("io.micronaut:micronaut-validation")
+	kapt("io.micronaut.data:micronaut-data-processor")
+	kapt("io.micronaut:micronaut-http-validation")
+	implementation("io.micronaut:micronaut-http-client")
+	implementation("io.micronaut:micronaut-jackson-databind")
+	implementation("io.micronaut.data:micronaut-data-jdbc")
+	implementation("io.micronaut.flyway:micronaut-flyway")
+	implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
+	implementation("io.micronaut.nats:micronaut-nats")
+	implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+	implementation("jakarta.annotation:jakarta.annotation-api")
+	implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
+	implementation("io.micronaut:micronaut-validation")
+	implementation("org.postgresql:postgresql:42.2.26.jre7")
+	runtimeOnly("ch.qos.logback:logback-classic")
+	runtimeOnly("com.h2database:h2")
 
-    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+	runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
 }
 
