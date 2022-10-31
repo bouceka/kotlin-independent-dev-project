@@ -1,15 +1,12 @@
 package com.bouceka.player.dto
 
-import com.bouceka.player.models.Coordinator
-import com.bouceka.player.models.Image
+import io.micronaut.core.annotation.Introspected
+import java.util.UUID
 
+@Introspected
 class UpdateRegistrationDto(
-	val name: String,
 	val matchDay: String,
-	val season: String,
-	val year: String,
-	val playerLimit: String,
-	val image: Image,
-	val coordinator: Coordinator,
-) {
-}
+	val status: String,
+	val player_id: UUID,
+	val proficiency_id: UUID,
+)
