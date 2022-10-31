@@ -50,6 +50,6 @@ node_modules
 
 # Unused Service
 player-srv
-helper.md
+#helper.md
 # Local Databse
 **/postgres-data/
