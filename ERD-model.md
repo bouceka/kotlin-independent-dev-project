@@ -32,8 +32,6 @@ The `user` setup is the most important part of the model because it is focused o
 
 - `user`
 - `role`
-- `player`
-- `coordinator`
 - `registration`
 
 The central table of this setup is the `user` table. Users are either players or coordinators. They are in separate tables to reduce redundancy by [normalization](https://www.guru99.com/database-normalization.html). The table will contain the following information about every user:
@@ -44,12 +42,11 @@ The central table of this setup is the `user` table. Users are either players or
 - `phone_number` - The phone number of the user.
 - `school_number` - The number that helps us prove whether students are still part of NIC.
 - `role_id` - Every user must have one of the following roles `student`, `coordinator`, `admin`, `super_admin`.
+- `notes` - Notes might be used for notifying coordinators about some sort of disability.
+- `date_of_birth` - It is aimed for students
+- `gender`- We need to balance the teams because the leagues are mixed.
 
 As mentioned, the `role` table stores only particular roles. The `role_name` attribute is UNIQUE. The list of roles might expand as the project grows.
-
-Next, every user must be a coordinator or a player. The `coordinator` table stands for a person who is going to be in charge of the teams. This person will communicate with the players and be responsible for representing the team. This person can be a student or NIC staff volunteer.
-
-The `player` table stores details about the player/student such as date of birth or notes. Notes might be used for notifying coordinators about some sort of disability.
 
 The last table in this module is the `registration` table. Any student/player CAN register on a team that is available at NIC. For each registration, we will store:
 

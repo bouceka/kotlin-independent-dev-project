@@ -1,4 +1,4 @@
-package com.bouceka.player.models
+package com.bouceka.models
 
 data class Image(
 	val id: String,
