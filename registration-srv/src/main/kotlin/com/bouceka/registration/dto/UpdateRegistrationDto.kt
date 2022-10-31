@@ -3,7 +3,7 @@ package com.bouceka.player.dto
 import com.bouceka.player.models.Coordinator
 import com.bouceka.player.models.Image
 
-class UpdateTeamDto(
+class UpdateRegistrationDto(
 	val name: String,
 	val matchDay: String,
 	val season: String,
