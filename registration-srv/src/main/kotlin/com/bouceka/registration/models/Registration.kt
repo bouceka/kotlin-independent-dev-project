@@ -1,9 +1,11 @@
 package com.bouceka.registration.models
 
+import com.bouceka.models.User
+
 data class Registration(
 	var id: String,
-	val matchDay: String,
-	val status: String, // TODO: Create enum
-	val proficiency: String,
-	val Player: Player,
+	var matchDay: String,
+	var status: String, // TODO: Create enum
+	var proficiency: String,
+	var user: User,
 )

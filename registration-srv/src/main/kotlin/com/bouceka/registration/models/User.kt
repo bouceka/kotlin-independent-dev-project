@@ -8,7 +8,9 @@ data class User(
 	val password: String,
 	val phoneNumber: String,
 	val schoolNumber: String,
-	val userRole: String
+	val userRole: String,
+	val notes: String,
+	val gender: String, // TODO: Create enum
 )
 
 
