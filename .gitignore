@@ -53,3 +53,4 @@ player-srv
 #helper.md
 # Local Databse
 **/postgres-data/
+**/mongodb_data_container/
