@@ -2,10 +2,10 @@ package com.bouceka.registration.dto
 
 import java.util.UUID
 
-data class CreateRegistrationDto(
+data class RegistrationDto(
 	val matchDay: String,
 	val status: String,
-	val playerId: UUID,
+	val userId: UUID,
 	val proficiencyId: UUID,
 )
 

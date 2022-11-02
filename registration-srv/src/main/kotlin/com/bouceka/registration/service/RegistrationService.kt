@@ -1,10 +1,11 @@
 package com.bouceka.registration.service
 
-import com.bouceka.models.User
-import com.bouceka.registration.dto.CreateRegistrationDto
+import com.bouceka.registration.dto.RegistrationDto
 import com.bouceka.registration.entity.Registration
+import com.bouceka.registration.exceptions.RegistrationNotFound
 import com.bouceka.registration.repository.RegistrationRepository
 import io.micronaut.http.annotation.Body
+import io.micronaut.http.annotation.PathVariable
 import jakarta.inject.Singleton
 import java.util.*
 
@@ -19,17 +20,34 @@ class RegistrationService(private val registrationRepository: RegistrationReposi
 		return registrationRepository.findById(id)
 	}
 
-	fun create(@Body body: CreateRegistrationDto): Registration {
+	fun create(@Body body: RegistrationDto): Registration {
 		var newRegistration = Registration(
 			UUID.randomUUID(), body.matchDay, body
-				.status, body.proficiencyId, body.playerId
+				.status, body.proficiencyId, body.userId
 		)
 		return registrationRepository.save(newRegistration)
 	}
 
-	fun delete(id: UUID): Boolean {
-		if (registrationRepository.findById(id).isEmpty) return false
+	fun update(@PathVariable id: UUID, @Body body: RegistrationDto): Registration {
+		if (registrationRepository.findById(id).isEmpty) throw RegistrationNotFound()
+
+		return registrationRepository.update(
+			Registration(
+				id,
+				matchDay = body.matchDay,
+				status = body.status,
+				proficiency_id = body.proficiencyId,
+				user_id = body.userId
+			)
+		)
+
+	}
+
+	fun delete(id: UUID): Optional<Registration> {
+		val foundRegistration = registrationRepository.findById(id)
+		if (foundRegistration.isEmpty) throw RegistrationNotFound()
 		registrationRepository.deleteById(id)
-		return true
+		return foundRegistration
+
 	}
 }
