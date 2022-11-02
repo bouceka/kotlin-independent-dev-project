@@ -14,14 +14,15 @@ I plan to create these three services.
 
 ![Services](/assets/services.jpg)
 
-| Goals                 | Week |
-| --------------------- | ---- |
-| Set up environment    | 0    |
-| Create first services | 4    |
-| Integrate database    | 5    |
-| Refactor Code         | 6    |
+| Goals                             | Week |
+| --------------------------------- | ---- |
+| Set up environment                | 0    |
+| Create first services             | 4    |
+| Integrate registration service    | 5    |
+| Integrate team service            | 6    |
+| Implement messaging stream system | 7    |
 
-## Week 0
+# Week 0
 
 This week I focus on setting up an environment and creating three initial services, including technologies such as [Skaffold](https://skaffold.dev/), [Docker](https://www.docker.com/), and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/).
 
@@ -43,7 +44,7 @@ Suppose you have the same local environment set up as I do, meaning having insta
 skaffold dev
 ```
 
-## Week 4 - Branch name (feature/week-4)
+# Week 4 - Branch name (feature/week-4)
 
 This week I focus on improving the Micronaut services and creating first classes and packages that are going to shape the services. Also, I will prepare the environment for implementing databases. It will result in the first CRUD operations.
 
@@ -117,7 +118,7 @@ data class Registration(
 
 https://micronaut-projects.github.io/micronaut-data/latest/api/io/micronaut/data/repository/CrudRepository.html
 
-## Week 5 - Branch name (feature/week-5)
+# Week 5 - Branch name (feature/week-5)
 
 This week I focused on changing the schema model based on the feedback, created two [CRUD operations](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) I left from the previous week, wired PostgreSQL with the Registration service and wrote the first migrations. All the changes were in Registration Service for this week.
 
@@ -127,7 +128,7 @@ This week I focused on changing the schema model based on the feedback, created 
 
 - Fix the DTO class for Update operation by Micronaut documentation and add Delete operation
 - Connect [JDBC](https://micronaut-projects.github.io/micronaut-data/latest/guide/#jdbc) and create a [repository](https://micronaut-projects.github.io/micronaut-data/latest/guide/#repositories) for for the `Registration` table
-- Create RegistrationService and connect the CRUD operations from controller to change records in the database.
+- Create RegistrationService and connect the CRUD operations from the controller to change records in the database.
 
 ## Progress
 
@@ -148,13 +149,9 @@ interface RegistrationRepository  : PageableRepository<Registration, UUID>
 
 This interface might be extended in the future. For example, if we want to delete all registration of particular user.
 
-```kotlin
-@Query("DELETE FROM Registration WHERE user_id = :id") //
-fun deleteAllRegistrationByUserId(@NotNull id: UUID)
-```
-Also we want we can override the vanilla operations `CrudRepository` provides by simply typing `override` before writing the function.
+Also, we want we can override the vanilla operations `CrudRepository` provides by simply typing `override` before writing the function.
+registration service.kt
 
-RegistrationService.kt
 ```kotlin
 @Singleton
 class RegistrationService(private val registrationRepository: RegistrationRepository) {
@@ -180,4 +177,129 @@ class RegistrationService(private val registrationRepository: RegistrationReposi
 We have to inject the repository to access the database in the service. Then we can call them and do the operations as I mentioned above.
 
 ## What did I learn?
-This week I learned a bit more about Micronaut. Its documentation is pretty robust, and after two weeks, I finally feel comfortable and orientated there. Even though the framework is pretty similar to what I know from NestJS, I still manage to learn new things. I didn't learn here much about Kotlin itself, I learned more about the Kotlin syntax I learned in AoC. However, now I know a lot about how to make a backend in a different language.
+
+This week I learned a bit more about Micronaut. Its documentation is pretty robust, and after two weeks, I finally feel comfortable and orientated there. Even though the framework is pretty similar to what I know from NestJS, I still manage to learn new things. I didn't learn here much about Kotlin itself. I learned more about the Kotlin syntax I learned in AoC. However, now I know a lot about how to make a backend in a different language.
+
+# Week 6 - Branch name (feature/week-6)
+
+This week I focused on team service that uses MongoDB, unlike registration service. Also, I cleaned the code and created a custom error handler.
+
+### Spent time: ~7 hours
+
+## Challenges
+
+- Clean the code where needed
+- Integrate MongoDB
+- Create a custom error handler
+
+## Progress
+
+[The first thing I did was](https://github.com/nic-dgl-204-fall-2022/bouceka-independent-dev-project/commit/cf9516f61ba5d990526aa3f09242c1fad8564900) clean the service from unused models and restructured the DTOs for creating and updating data.
+
+Then [I integrated MongoDB](https://github.com/nic-dgl-204-fall-2022/bouceka-independent-dev-project/commit/2c749114d33a1a29f86991fed460a7b19e579191). There I got stuck for an hour. [The documentation](https://micronaut-projects.github.io/micronaut-data/latest/guide/#mongo) says that we should incorporate MongoDB in application.yml like so:
+
+`mongodb: uri: mongodb://username:password@localhost:27017/databaseName`
+
+However, when I ran the app, it returned an unauthorized error. After a while of googling, I never saw that someone would try to connect directly to a database in MongoDB. I fixed it by accessing the database without a direct reference to a database and specified it in the [repository](team-srv/src/main/kotlin/com/bouceka/repository/TeamRepository.kt) instead.
+
+The next issue I tackled was my database schema. I hadn't known that MongoDB integrates its own Id object, which can't be UUID. If I wanted to have a UUID property, I had to set it up separately, like so:
+
+```kotlin
+@MappedEntity
+data class TeamEntity(
+	@field:Id
+	@field:GeneratedValue
+	var id: String? = null,
+	var teamId: String, // UUID property
+	val name: String,
+	val userId: String,
+	val imageId: String,
+	val matchDay: String,
+	val season: String,
+	val year: String,
+	val playerLimit: String
+)
+
+```
+
+Similarly to the previous week, I implemented a [controller and a service.](https://github.com/nic-dgl-204-fall-2022/bouceka-independent-dev-project/commit/81038a63e86a898fb4f41d50a7af2cd6bcd86e8a) While developing the service, I noticed one thing. If we want to update or delete a record, we want to find the record first, if it exists.
+
+Like so:
+
+TeamService.kt
+
+```kotlin
+fun update(id: String, body: TeamDto): TeamEntity {
+		val foundTeam = teamRepository.findById(id)
+
+		if (foundTeam.isEmpty)
+			throw ClassNotFoundException("Team with id $id was not found")
+
+		...
+
+}
+```
+
+If the client asks to edit a non-existing record, it responds with an error. The error message that Micronaut provides returns a Java object with status 500. We don't want to produce an [HTTP status](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) code error 500, which indicates that our server failed. We want to return a status error 400 that says `Bad request`.
+
+Postman response:
+
+![Services](/assets//postman-response-error.png)
+Server log:
+
+![Services](/assets/server-log-error.png)
+
+For this case, Micronaut has a [guide](https://docs.micronaut.io/latest/guide/#customExceptionHandler) on creating our custom error handler.
+
+The error exception for not found a record in the Team collection in MongoDB might look like this:
+
+```kotlin
+class TeamNotFound : RuntimeException()
+
+@Produces
+@Singleton
+@Requires(classes = [RuntimeException::class])
+class TeamNotFoundHandler(private val errorResponseProcessor: ErrorResponseProcessor<Any>) :
+	ExceptionHandler<TeamNotFound, HttpResponse<*>> {
+
+	override fun handle(request: HttpRequest<*>, exception: TeamNotFound): HttpResponse<*> {
+		return errorResponseProcessor.processResponse(
+			ErrorContext.builder(request)
+				.cause(exception)
+				.errorMessage("Team not found")
+				.build(), HttpResponse.badRequest<Any>()) //
+	}
+}
+```
+
+We create a new class and extend it with `RuntimeException` class. We override the handle function that indicates what to throw once the handler is called. `ErrorContext` builder helps to build it with easier.
+
+
+```kotlin
+val foundTeam = teamRepository.findById(id)
+
+if (teamRepository.findById(id).isEmpty)
+	throw TeamNotFound()
+```
+
+Once we use it, we no longer get the 500 server error when the client sends an invalid request.
+
+![Services](/assets/bad-request.png)
+
+
+However, it would be inefficient to create an exception for every type of error. So I made a [global exception](https://github.com/nic-dgl-204-fall-2022/bouceka-independent-dev-project/commit/b7d877323b7742731e6e2798848f0c8023fb25f4) that can be used for any niche. It has two parameters, `message`, and `httpResponse`. Usage might look like this:
+
+TeamService.kt
+```kotlin
+fun delete(id: String): Optional<TeamEntity> {
+	if (!ObjectId.isValid(id))
+		throw GlobalException("Invalid Object Id", HttpResponse.badRequest())
+
+	...
+
+}
+```
+
+
+## What did I learn?
+This week I learned how to integrate MongoDB and what obstacles I might have encountered. Also, I learned that I could not use UUID for MongoDB. The most significant improvement was implementing error handlers. This was the critical thing I learned this week. It makes my responses with the client side neater.
