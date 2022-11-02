@@ -41,7 +41,7 @@ class TeamService(private val teamRepository: TeamRepository) {
 		val foundTeam = teamRepository.findById(id)
 
 		if (foundTeam.isEmpty)
-			throw GlobalException("Tam not found", HttpResponse.badRequest())
+			throw GlobalException("Team not found", HttpResponse.badRequest())
 
 		return teamRepository.update(
 			TeamEntity(
