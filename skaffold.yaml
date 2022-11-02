@@ -2,10 +2,10 @@ apiVersion: skaffold/v2alpha3
 kind: Config
 deploy:
   kubectl:
-    manifests:
+   manifests:
       - ./infrastructure/k8s/*
       - ./infrastructure/k8s-dev/*
-      - ./player-srv/k8s.yml
+      - ./team-srv/k8s.yml
       - ./registration-srv/k8s.yml
 build:
   local:
@@ -19,8 +19,8 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: 4sam/player-srv
-      context: player-srv
+    - image: 4sam/team-srv
+      context: team-srv
       docker:
         dockerfile: Dockerfile
     - image: 4sam/registration-srv
