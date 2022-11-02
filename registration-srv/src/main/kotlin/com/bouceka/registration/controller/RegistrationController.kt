@@ -9,7 +9,7 @@ import io.micronaut.http.annotation.*
 import java.util.*
 
 @Controller("/api/registration")
-class RegistrationController(val registrationService: RegistrationService) {
+class RegistrationController(private val registrationService: RegistrationService) {
 
 	@Get
 	fun findAll(): HttpResponse<List<Registration>> {
