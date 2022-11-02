@@ -1,10 +1,14 @@
-version: '3.3'
+version: '3.1'
 services:
-  postgres:
-    image: "postgres:14.5"
+  mongodb_container:
+    image: mongo
     environment:
-      POSTGRES_USER: team
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: team
+      MONGO_INITDB_ROOT_USERNAME: team
+      MONGO_INITDB_ROOT_PASSWORD: password
     ports:
-      - "5432:5432"
+      - 27017:27017
+    volumes:
+      - './mongodb_data_container:/data/db'
+
+volumes:
+  mongodb_data_container:

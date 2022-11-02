@@ -1,46 +1,46 @@
 package com.bouceka.team.controller
 
+import com.bouceka.dto.TeamDto
+import com.bouceka.entity.TeamEntity
 import com.bouceka.models.Team
-import com.bouceka.models.User
-import com.bouceka.player.dto.UpdateTeamDto
-import com.bouceka.player.models.Coordinator
-import com.bouceka.player.models.Image
+import com.bouceka.service.TeamService
+import io.micronaut.http.HttpResponse
+import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.*
+import java.util.Optional
 
 @Controller("/api/team")
-class TeamController {
-
-	val imageMock = Image("1", "1", "profile image", "default image", "url")
-	val userMock = User("1", "John", "Doe", "john@doe.com", "password", "123456789", "123456", "Player")
-	val coordinatorMock = Coordinator("1", "Caption", userMock)
-	val teamListMock: List<Team> =
-		listOf(
-			Team("1", "Women's Volleyball", "Tuesday", "Spring", "2023", "9", imageMock, coordinatorMock),
-			Team("2", "Men's Volleyball", "Wednesday", "Spring", "2023", "9", imageMock, coordinatorMock)
-		)
+class TeamController(private val teamService: TeamService) {
 
 	@Get
-	fun findAll(): List<Team> {
-		return teamListMock
+	fun findAll(): List<TeamEntity> {
+		return teamService.findAll()
+	}
+
+	@Post
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	fun create(@Body request: TeamDto): TeamEntity {
+		return teamService.create(request)
 	}
 
 	@Get("/{id}")
-	fun findById(@PathVariable id: String): Team? {
-		return teamListMock.find { it.id == id }
+	fun findById(@PathVariable id: String): Optional<TeamEntity> {
+		return teamService.findById(id)
 	}
 
-	/*
+
 	@Put("/{id}")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	fun update(
 		@PathVariable id: String,
-		@Body request: UpdateTeamDto
-	): Team?  {
-		var (name, matchDay, season, year, playerLimit) = request
-		var foundTeam = teamListMock.find { it.id == id }
-		if(foundTeam != null) return null
-		foundTeam = teamListMock.find { it.id == id }.let { teamListMock[index] = }
+		@Body request: TeamDto
+	): HttpResponse<TeamEntity> {
+		return HttpResponse.ok(teamService.update(id, request))
+	}
 
-		return foundTeam
-	} */
+	@Delete("/{id}")
+	fun delete(@PathVariable id: String): HttpResponse<Optional<TeamEntity>> {
+		return HttpResponse.ok(teamService.delete(id))
+	}
 }
 

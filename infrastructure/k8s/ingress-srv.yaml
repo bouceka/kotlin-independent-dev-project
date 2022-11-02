@@ -17,11 +17,11 @@ spec:
                 name: user-srv
                 port:
                   number: 3000
-          - path: /api/player/?(.*)
+          - path: /api/team/?(.*)
             pathType: Prefix
             backend:
               service:
-                name: player-srv
+                name: team-srv
                 port:
                   number: 8080
           - path: /api/registration/?(.*)
