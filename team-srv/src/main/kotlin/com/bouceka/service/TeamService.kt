@@ -2,12 +2,13 @@ package com.bouceka.service
 
 import com.bouceka.dto.TeamDto
 import com.bouceka.entity.TeamEntity
+import com.bouceka.exceptions.GlobalException
 import com.bouceka.exceptions.TeamNotFound
 import com.bouceka.repository.TeamRepository
+import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Body
 import jakarta.inject.Singleton
 import org.bson.types.ObjectId
-import java.net.http.HttpResponse
 import java.util.*
 
 @Singleton
@@ -40,7 +41,7 @@ class TeamService(private val teamRepository: TeamRepository) {
 		val foundTeam = teamRepository.findById(id)
 
 		if (foundTeam.isEmpty)
-			throw ClassNotFoundException("Team with id $id was not found")
+			throw GlobalException("Tam not found", HttpResponse.badRequest())
 
 		return teamRepository.update(
 			TeamEntity(
@@ -59,9 +60,10 @@ class TeamService(private val teamRepository: TeamRepository) {
 	}
 
 	fun delete(id: String): Optional<TeamEntity> {
-		val foundTeam = teamRepository.findById(id)
+		if (!ObjectId.isValid(id)) throw GlobalException("Invalid Object Id", HttpResponse.badRequest())
 
-		if (foundTeam.isEmpty)
+		val foundTeam = teamRepository.findById(id)
+		if (teamRepository.findById(id).isEmpty)
 			throw TeamNotFound()
 
 		teamRepository.deleteById(id)
