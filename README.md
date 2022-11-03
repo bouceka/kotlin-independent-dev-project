@@ -116,8 +116,6 @@ data class Registration(
 - Folder structure might change, meaning change name into Pascal case.
 - Refactor code. Remove and re-consider duplicity of the model classes.
 
-https://micronaut-projects.github.io/micronaut-data/latest/api/io/micronaut/data/repository/CrudRepository.html
-
 # Week 5 - Branch name (feature/week-5)
 
 This week I focused on changing the schema model based on the feedback, created two [CRUD operations](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) I left from the previous week, wired PostgreSQL with the Registration service and wrote the first migrations. All the changes were in Registration Service for this week.
