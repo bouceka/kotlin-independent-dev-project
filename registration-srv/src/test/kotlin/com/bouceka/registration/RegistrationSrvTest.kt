@@ -7,7 +7,7 @@ import jakarta.inject.Inject
 
 @MicronautTest
 class RegistrationSrvTest {
-
+/*
     @Inject
     lateinit var application: EmbeddedApplication<*>
 
@@ -15,5 +15,5 @@ class RegistrationSrvTest {
     fun testItWorks() {
         Assertions.assertTrue(application.isRunning)
     }
-
+*/
 }
