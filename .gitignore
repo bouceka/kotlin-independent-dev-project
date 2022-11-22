@@ -56,4 +56,4 @@ player-srv
 **/mongodb_data_container/
 
 #NATS TEST ENVIRONMENT
-nats-test
+#nats-test
