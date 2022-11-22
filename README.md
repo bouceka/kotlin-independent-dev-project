@@ -272,7 +272,6 @@ class TeamNotFoundHandler(private val errorResponseProcessor: ErrorResponseProce
 
 We create a new class and extend it with `RuntimeException` class. We override the handle function that indicates what to throw once the handler is called. `ErrorContext` builder helps to build it with easier.
 
-
 ```kotlin
 val foundTeam = teamRepository.findById(id)
 
@@ -284,10 +283,10 @@ Once we use it, we no longer get the 500 server error when the client sends an i
 
 ![Services](/assets/bad-request.png)
 
-
 However, it would be inefficient to create an exception for every type of error. So I made a [global exception](https://github.com/nic-dgl-204-fall-2022/bouceka-independent-dev-project/commit/b7d877323b7742731e6e2798848f0c8023fb25f4) that can be used for any niche. It has two parameters, `message`, and `httpResponse`. Usage might look like this:
 
 TeamService.kt
+
 ```kotlin
 fun delete(id: String): Optional<TeamEntity> {
 	if (!ObjectId.isValid(id))
@@ -298,10 +297,9 @@ fun delete(id: String): Optional<TeamEntity> {
 }
 ```
 
-
 ## What did I learn?
-This week I learned how to integrate MongoDB and what obstacles I might have encountered. Also, I learned that I could not use UUID for MongoDB. The most significant improvement was implementing error handlers. This was the critical thing I learned this week. It makes my responses with the client side neater.
 
+This week I learned how to integrate MongoDB and what obstacles I might have encountered. Also, I learned that I could not use UUID for MongoDB. The most significant improvement was implementing error handlers. This was the critical thing I learned this week. It makes my responses with the client side neater. Lastly, I briefly developed User service in TypeScript.
 
 # Week 7 - Branch name (feature/week-7)
 
@@ -313,11 +311,23 @@ This week I focused on implementing NATS, cleaning up the services and integrati
 
 - Learn how to implement NATS (no prior experience)
 - Write deployment YAML for inner cluster databases and NATS server
-- Clean up code (using enum classes and extend the number of error handlers)
+- Clean up code (using enum classes and extending the number of error handlers)
 
 ## Faced issues
 
+I have to start with an issue I faced when I tried to implement [NATS streaming server](https://github.com/nats-io/nats-streaming-server) into my project. I followed [this article](https://medium.com/beyond-coding/nats-streaming-server-in-the-node-js-world-with-kubernetes-how-to-guide-2595dd598acc) from 2020. However, the solution I wanted to use is going to be deprecated in June 2023. Even though it's not June 2023 yet, Micronaut does not support NATS streaming server anymore and only supports [JetStream](https://docs.nats.io/nats-concepts/jetstream) which is going to replace. It took me a significant portion of time to find it out.
 
 ## Progress
 
+Despite, I haven't developed the NATS solution I can demonstrate how the technology works at least. I exposed my [testing environment](https://github.com/nic-dgl-204-fall-2022/bouceka-independent-dev-project/commit/76db60877b59b4c8eb2b67e5802b794f84dbe1d4) that tests communication through NATS. There are two main functions that every service needs to have `Publisher` and `Listener`. From the names, you can guess which one does what. One service publishes data to the broker and the second listens and handles the data. The communication works on the subscription principle. Similar to Observable in JavaScript.
+
+If you want to test the behavior locally, please, text me. The process isn't the simplest one.
+
+However, let's jump back to Micronaut. After a little failure that was caused by my unpreparedness, I jumped on improving my Kubernetes cluster. I [implemented database pods](https://github.com/nic-dgl-204-fall-2022/bouceka-independent-dev-project/commit/edc8945522f89d37b5c05ae31c21b8fd972698ea) that will connect to our Micronaut services, so we can run our cluster at once.
+
+Then I cleaned up the naming [convention for entities](https://github.com/nic-dgl-204-fall-2022/bouceka-independent-dev-project/commit/e0934c0cd1c106d1ff34b2d2407e536d3c336592). That means, every entity holds its properties as a model class, so it doesn't need to be named as `TeamEntity`.
+
+Then I refactored the code by [adding enum classes](https://github.com/nic-dgl-204-fall-2022/bouceka-independent-dev-project/commit/ce8b4b9c314a24873252d1fd3e433ba00149a95a) and [more error handlers](https://github.com/nic-dgl-204-fall-2022/bouceka-independent-dev-project/commit/b2f25955f3823a46fd93d0df4aaf86d78f027a89) for more use cases.
+
 ## What did I learn?
+I learned a lot about NATS. It took me over 6 hours to go through many videos on YouTube and articles on Medium. The most important this I found was how to handle asynchronous communication between services through NATS. There must be implemented version system so that the events won't skip each other. Then I learned a bit more about Micronaut and how to implement NATS. Even though I have implemented, yet, now I know what to focus on. Implementing error handlers, enums, and cleaning code I don't consider as learning new stuff but I think it was a good practice.
