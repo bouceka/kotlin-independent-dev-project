@@ -54,3 +54,6 @@ player-srv
 # Local Databse
 **/postgres-data/
 **/mongodb_data_container/
+
+#NATS TEST ENVIRONMENT
+nats-test

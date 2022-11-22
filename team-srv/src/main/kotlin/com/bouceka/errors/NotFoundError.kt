@@ -1,4 +1,4 @@
-package com.bouceka.registration.exceptions
+package com.bouceka.errors
 
 import io.micronaut.context.annotation.Requires
 import io.micronaut.http.HttpRequest
@@ -10,20 +10,20 @@ import io.micronaut.http.server.exceptions.response.ErrorResponseProcessor
 import jakarta.inject.Singleton
 
 
-class RegistrationNotFound : RuntimeException()
+class NotFoundError : RuntimeException()
 
 @Produces
 @Singleton
 @Requires(classes = [RuntimeException::class])
-class RegistrationNotFoundHandler(private val errorResponseProcessor: ErrorResponseProcessor<Any>) :
-	ExceptionHandler<RegistrationNotFound, HttpResponse<*>> {
+class NotFoundHandler(private val errorResponseProcessor: ErrorResponseProcessor<Any>) :
+	ExceptionHandler<NotFoundError, HttpResponse<*>> {
 
-	override fun handle(request: HttpRequest<*>, exception: RegistrationNotFound): HttpResponse<*> {
+	override fun handle(request: HttpRequest<*>, exception: NotFoundError): HttpResponse<*> {
 		return errorResponseProcessor.processResponse(
 			ErrorContext.builder(request)
 				.cause(exception)
-				.errorMessage("Registration not found")
-				.build(), HttpResponse.badRequest<Any>()) //
+				.errorMessage("Not found")
+				.build(), HttpResponse.notFound<Any>())
 	}
 }
 

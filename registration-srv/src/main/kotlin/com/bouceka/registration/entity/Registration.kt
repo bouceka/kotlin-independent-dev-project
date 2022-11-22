@@ -1,5 +1,7 @@
 package com.bouceka.registration.entity
 
+import com.bouceka.registration.models.MatchDay
+import com.bouceka.registration.models.Status
 import io.micronaut.data.annotation.GeneratedValue
 import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
@@ -10,8 +12,8 @@ data class Registration(
 	@field:Id
 	@field:GeneratedValue(GeneratedValue.Type.UUID)
 	var id: UUID,
-	var matchDay: String,
-	var status: String, // TODO: Create enum
+	var matchDay: MatchDay,
+	var status: Status,
 	var proficiency_id: UUID,
 	var user_id: UUID,
 )

@@ -12,5 +12,7 @@ run docker compose -> docker-compose -f docker-compose.dev.yml up
 
 run skaffold -> skaffold dev
 
+direct access to NATS -> kubectl port-forward nats-depl-75ff586df-77v66 4222:4222
+
 
 //https://guides.micronaut.io/latest/micronaut-data-jdbc-repository-maven-kotlin.html

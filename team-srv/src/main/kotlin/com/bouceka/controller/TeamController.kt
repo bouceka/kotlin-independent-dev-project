@@ -1,8 +1,7 @@
 package com.bouceka.team.controller
 
 import com.bouceka.dto.TeamDto
-import com.bouceka.entity.TeamEntity
-import com.bouceka.models.Team
+import com.bouceka.entity.Team
 import com.bouceka.service.TeamService
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
@@ -13,18 +12,18 @@ import java.util.Optional
 class TeamController(private val teamService: TeamService) {
 
 	@Get
-	fun findAll(): List<TeamEntity> {
+	fun findAll(): List<Team> {
 		return teamService.findAll()
 	}
 
 	@Post
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	fun create(@Body request: TeamDto): TeamEntity {
+	fun create(@Body request: TeamDto): Team {
 		return teamService.create(request)
 	}
 
 	@Get("/{id}")
-	fun findById(@PathVariable id: String): Optional<TeamEntity> {
+	fun findById(@PathVariable id: String): Optional<Team> {
 		return teamService.findById(id)
 	}
 
@@ -34,12 +33,12 @@ class TeamController(private val teamService: TeamService) {
 	fun update(
 		@PathVariable id: String,
 		@Body request: TeamDto
-	): HttpResponse<TeamEntity> {
+	): HttpResponse<Team> {
 		return HttpResponse.ok(teamService.update(id, request))
 	}
 
 	@Delete("/{id}")
-	fun delete(@PathVariable id: String): HttpResponse<Optional<TeamEntity>> {
+	fun delete(@PathVariable id: String): HttpResponse<Optional<Team>> {
 		return HttpResponse.ok(teamService.delete(id))
 	}
 }

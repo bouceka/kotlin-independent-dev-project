@@ -1,8 +1,8 @@
 package com.bouceka.registration.service
 
+import com.bouceka.errors.BadRequestError
 import com.bouceka.registration.dto.RegistrationDto
 import com.bouceka.registration.entity.Registration
-import com.bouceka.registration.exceptions.RegistrationNotFound
 import com.bouceka.registration.repository.RegistrationRepository
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.PathVariable
@@ -29,7 +29,7 @@ class RegistrationService(private val registrationRepository: RegistrationReposi
 	}
 
 	fun update(@PathVariable id: UUID, @Body body: RegistrationDto): Registration {
-		if (registrationRepository.findById(id).isEmpty) throw RegistrationNotFound()
+		if (registrationRepository.findById(id).isEmpty)throw BadRequestError("Registration not found")
 
 		return registrationRepository.update(
 			Registration(
@@ -40,12 +40,11 @@ class RegistrationService(private val registrationRepository: RegistrationReposi
 				user_id = body.userId
 			)
 		)
-
 	}
 
 	fun delete(id: UUID): Optional<Registration> {
 		val foundRegistration = registrationRepository.findById(id)
-		if (foundRegistration.isEmpty) throw RegistrationNotFound()
+		if (foundRegistration.isEmpty) throw throw BadRequestError("Team not found")
 		registrationRepository.deleteById(id)
 		return foundRegistration
 
