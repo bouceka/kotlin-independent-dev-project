@@ -1,13 +1,13 @@
 package com.bouceka.entity
 
+import com.bouceka.models.MatchDay
+import com.bouceka.models.Season
 import io.micronaut.data.annotation.GeneratedValue
 import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
-import org.bson.types.ObjectId
-import java.util.UUID
 
 @MappedEntity
-data class TeamEntity(
+data class Team(
 	@field:Id
 	@field:GeneratedValue
 	var id: String? = null,
@@ -15,8 +15,8 @@ data class TeamEntity(
 	val name: String,
 	val userId: String,
 	val imageId: String,
-	val matchDay: String, // TODO: Create enum
-	val season: String, // TODO: Create enum
+	val matchDay: MatchDay,
+	val season: Season,
 	val year: String, // maybe INT? most likely not
 	val playerLimit: String
 )
