@@ -10,7 +10,7 @@ data class User(
 	val schoolNumber: String,
 	val userRole: String,
 	val notes: String,
-	val gender: String, // TODO: Create enum
+	val gender: Gender,
 )
 
 
