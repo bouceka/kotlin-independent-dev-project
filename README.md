@@ -301,3 +301,23 @@ fun delete(id: String): Optional<TeamEntity> {
 
 ## What did I learn?
 This week I learned how to integrate MongoDB and what obstacles I might have encountered. Also, I learned that I could not use UUID for MongoDB. The most significant improvement was implementing error handlers. This was the critical thing I learned this week. It makes my responses with the client side neater.
+
+
+# Week 7 - Branch name (feature/week-7)
+
+This week I focused on implementing NATS, cleaning up the services and integrating databases within the cluster. In the end, it project should be executable by simply typing `scaffold dev` and the whole project should run concurrently.
+
+### Spent time: ~16 hours
+
+## Challenges
+
+- Learn how to implement NATS (no prior experience)
+- Write deployment YAML for inner cluster databases and NATS server
+- Clean up code (using enum classes and extend the number of error handlers)
+
+## Faced issues
+
+
+## Progress
+
+## What did I learn?
