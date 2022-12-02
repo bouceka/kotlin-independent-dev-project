@@ -4,9 +4,9 @@ deploy:
   kubectl:
    manifests:
       - ./infrastructure/k8s/*
-      - ./infrastructure/k8s-dev/*
-      - ./team-srv/k8s.yml
-      - ./registration-srv/k8s.yml
+      # - ./infrastructure/k8s-dev/*
+      # - ./team-srv/k8s.yml
+      # - ./registration-srv/k8s.yml
 build:
   local:
     push: false
@@ -19,11 +19,11 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: 4sam/team-srv
-      context: team-srv
-      docker:
-        dockerfile: Dockerfile
-    - image: 4sam/registration-srv
-      context: registration-srv
-      docker:
-        dockerfile: Dockerfile
+    # - image: 4sam/team-srv
+    #   context: team-srv
+    #   docker:
+    #     dockerfile: Dockerfile
+    # - image: 4sam/registration-srv
+    #   context: registration-srv
+    #   docker:
+    #     dockerfile: Dockerfile
