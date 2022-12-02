@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.bouceka.auth
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: gradle_kotlin
+features: [annotation-api, app-name, config-kubernetes, gradle, http-client, jackson-databind, jdbc-hikari, jib, junit, kotlin, kotlin-application, kotlin-build, kubernetes, kubernetes-client, logback, management, micronaut-build, netty-server, postgres, properties, readme, shade, test-resources]
